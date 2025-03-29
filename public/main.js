@@ -1,8 +1,28 @@
 const voiceSelector = document.querySelector("#voiceSelect");
 const playButton = document.querySelector("#playButton");
 const textInput = document.querySelector("textArea");
+const languageSelect = document.querySelector("#languageSelect");
 
-// load voices in
+//array of supported langs with ISO codes (ex: en, fr)
+const langs = [
+    {code: "en", name: "English"},
+    {code: "es", name: "Spanish"},
+    {code: "fr", name: "French"},
+    {code: "de", name: "German"},
+    {code: "it", name: "Italian"},
+    {code: "ja", name: "Japanese"},
+    {code: "zh-CN", name: "Chinese (Simplified)"},
+];
+
+//populate select language box
+langs.forEach(({code, name}) => {
+    const option = document.createElement("option");
+    option.value = code;
+    option.textContent = name;
+    languageSelect.appendChild(option);
+})
+
+//load voices in
 let voices = [];
 function loadVoices(){
     voices = speechSynthesis.getVoices();
@@ -15,7 +35,7 @@ function loadVoices(){
 speechSynthesis.onvoiceschanged = loadVoices;
 loadVoices();
 
-// tts
+//tts
 playButton.addEventListener("click", () => {
     const utterance = new SpeechSynthesisUtterance(textInput.value);
     const selectedVoice = voices[voiceSelector.value];
